@@ -1,0 +1,71 @@
+@import "tailwindcss";
+
+@source "../../../../packages/ui/src";
+
+/*
+ * DevHub design tokens. Dark-first: the dashboard is an operations console
+ * people keep open for hours. Status colours are never the only signal —
+ * every status also has a text label.
+ */
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
+  --font-mono: ui-monospace, "SF Mono", SFMono-Regular, Menlo, Consolas, monospace;
+
+  --color-canvas: #0a0c0f;
+  --color-surface: #101318;
+  --color-raised: #161a21;
+  --color-line: #222832;
+  --color-line-strong: #2f3744;
+  --color-fg: #e7eaee;
+  --color-muted: #9aa3b1;
+  --color-faint: #6b7483;
+  --color-accent: #8fb3ff;
+  --color-accent-fg: #0a0c0f;
+  --color-ok: #4ade80;
+  --color-warn: #fbbf24;
+  --color-bad: #f87171;
+  --color-unknown: #94a3b8;
+}
+
+@layer base {
+  html {
+    color-scheme: dark;
+    background: var(--color-canvas);
+  }
+  body {
+    background: var(--color-canvas);
+    color: var(--color-fg);
+    font-family: var(--font-sans);
+    font-feature-settings: "cv11", "ss01";
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+  }
+  ::selection {
+    background: color-mix(in srgb, var(--color-accent) 35%, transparent);
+  }
+  :focus-visible {
+    outline-color: var(--color-accent);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    /* The user's reduced-motion preference must beat every component transition. */
+    *,
+    *::before,
+    *::after {
+      /* biome-ignore lint/complexity/noImportantStyles: must override component-level animations */
+      animation-duration: 0.01ms !important;
+      /* biome-ignore lint/complexity/noImportantStyles: must override component-level transitions */
+      transition-duration: 0.01ms !important;
+    }
+  }
+}
+
+@utility select-chevron {
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%239aa3b1' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='m6 9 6 6 6-6'/%3E%3C/svg%3E");
+}
+
+/* Faint top glow that gives the shell depth without competing with data. */
+@utility shell-glow {
+  background:
+    radial-gradient(1200px 400px at 20% -10%, rgb(143 179 255 / 0.07), transparent 60%),
+    radial-gradient(900px 300px at 90% -20%, rgb(74 222 128 / 0.04), transparent 60%);
+}

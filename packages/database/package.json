@@ -1,0 +1,23 @@
+{
+  "name": "@devhub/database",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": {
+    ".": "./src/index.ts",
+    "./testing": "./src/testing/index.ts"
+  },
+  "scripts": {
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "vitest run",
+    "db:check": "tsx scripts/check-migrations.ts"
+  },
+  "dependencies": {
+    "@devhub/auth": "workspace:*",
+    "@devhub/contracts": "workspace:*"
+  },
+  "devDependencies": {
+    "@electric-sql/pglite": "0.5.12",
+    "tsx": "4.23.15"
+  }
+}

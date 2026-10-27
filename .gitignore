@@ -1,0 +1,16 @@
+node_modules/
+.pnpm-store/
+dist/
+.next/
+out/
+coverage/
+*.tsbuildinfo
+.env
+.env.*
+!.env.example
+.DS_Store
+playwright-report/
+test-results/
+.turbo/
+# Third-party tooling cloned locally (REA reverse-engineering toolkit)
+tools/

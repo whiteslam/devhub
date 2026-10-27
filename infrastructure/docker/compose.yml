@@ -1,0 +1,25 @@
+# Runs the DevHub processes against a Supabase project (local via
+# `supabase start`, or hosted). From the repository root:
+#   docker compose -f infrastructure/docker/compose.yml --env-file .env up --build
+# On Linux, replace host.docker.internal with the host gateway IP if needed.
+services:
+  web:
+    build: { context: ../.., dockerfile: infrastructure/docker/web.Dockerfile }
+    ports: ["3000:3000"]
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL_FROM_CONTAINER:-http://host.docker.internal:54321}
+      SUPABASE_PUBLISHABLE_KEY: ${SUPABASE_PUBLISHABLE_KEY:?set SUPABASE_PUBLISHABLE_KEY}
+      DEVHUB_APP_URL: ${DEVHUB_APP_URL:-http://localhost:3000}
+      DEVHUB_ALLOW_SIGNUP: ${DEVHUB_ALLOW_SIGNUP:-false}
+    read_only: true
+    tmpfs: ["/tmp", "/app/apps/web/.next/cache"]
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
+  api:
+    build: { context: ../.., dockerfile: infrastructure/docker/api.Dockerfile }
+    ports: ["4000:4000"]
+    environment:
+      SUPABASE_URL: ${SUPABASE_URL_FROM_CONTAINER:-http://host.docker.internal:54321}
+    read_only: true
+    security_opt: ["no-new-privileges:true"]
+    restart: unless-stopped
